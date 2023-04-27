@@ -18,7 +18,7 @@
 
 ## Visão geral e objetivos
 
-O objetivo deste trabalho é colocar em prática as operações de leitura e escrita em arquivos na linguagem de programação Go. O programa a ser implementado utiliza como fonte de dados um arquivo [CSV (*Comma-Separated Values*)](https://en.wikipedia.org/wiki/Comma-separated_values) contendo o número de nascidos vivos em cada um dos 167 municípios do Estado do Rio Grande do Norte entre os  anos de 1994 e 2020. Os dados são provenientes do Sistema de Informações sobre Nascidos Vivos(SINASC) do Departamento de Informática do Sistema Único de Saúde (DATASUS), vinculado ao Ministério da Saúde do Brasil, e estão disponíveis neste [link](http://tabnet.datasus.gov.br/cgi/deftohtm.exe?sinasc/cnv/nvbr.def).
+O objetivo deste trabalho é colocar em prática as operações de leitura e escrita em arquivos na linguagem de programação Go. O programa a ser implementado utiliza como fonte de dados um arquivo [CSV (*Comma-Separated Values*)](https://en.wikipedia.org/wiki/Comma-separated_values) contendo o número de nascidos vivos em cada um dos 167 municípios do Estado do Rio Grande do Norte entre os  anos de 1994 e 2020. Os dados são provenientes do Sistema de Informações sobre Nascidos Vivos (SINASC) do Departamento de Informática do Sistema Único de Saúde (DATASUS), vinculado ao Ministério da Saúde do Brasil, e estão disponíveis neste [link](http://tabnet.datasus.gov.br/cgi/deftohtm.exe?sinasc/cnv/nvbr.def).
 
 Este trabalho explora os seguintes elementos da programação em Go, cujos conhecimentos são, portanto, ora necessários:
 
@@ -33,7 +33,7 @@ Este trabalho explora os seguintes elementos da programação em Go, cujos conhe
 
 ### Tarefa 1
 
-A primeira tarefa deste trabalho consiste em implementar um programa chamado `nascimentos` que recebe como entrada, via linha de comando, o arquivo de texto [`Nascimentos_RN.csv](nascimentos.csv) disponível neste repositório. Esse arquivo, no formato CSV, contém os números de nascidos vivos em cada município para cada ano contabilizado. Cada linha do arquivo refere-se a um município e os números de nascimentos em cada ano são separados por ponto-e-vírgulas. Enquanto o arquivo de entrada for sendo lido, os dados de cada município deverão ser armazenados em memória. Para tal armazenamento, pode-se fazer uso de tipos estruturados (*structs*) e/ou de estruturas de dados como *arrays*, *slices* ou mapas.
+A primeira tarefa deste trabalho consiste em implementar um programa chamado `nascimentos` que recebe como entrada, via linha de comando, o arquivo de texto [`Nascimentos_RN.csv`](Nascimentos_RN.csv) disponível neste repositório. Esse arquivo, no formato CSV, contém os números de nascidos vivos em cada município para cada ano contabilizado. Cada linha do arquivo refere-se a um município e os números de nascimentos em cada ano são separados por vírgulas. Enquanto o arquivo de entrada for sendo lido, os dados de cada município deverão ser armazenados em memória. Para tal armazenamento, pode-se fazer uso de tipos estruturados (*structs*) e/ou de estruturas de dados como *arrays*, *slices* ou mapas.
 
 Ao abrir o arquivo CSV de entrada em um editor de texto ou editor de planilhas, será possível observar que a primeira linha do arquivo diz respeito a um cabeçalho para a tabela de dados e que a primeira coluna contém o nome do município antecedido por um código numérico que o identifica, de forma aglutinada. Durante a leitura do arquivo, o programa deverá separar o código numérico do nome do município. A última linha e a última coluna do arquivo CSV de entrada apresentam, respectivamente, o total de nascimentos em cada ano e o total de nascimentos em cada município somados os 27 anos da série 1994-2020. No entanto, esses totais deverão ser usados **apenas** para fins de verificação de consistência. Para isso, deverá ser implementada uma função de verificação para verificar se os totais informados no arquivo conferem com a série de dados lida.
 
@@ -53,10 +53,10 @@ em que $M$ é o número de municípios, $n_i$ é o número de nascimentos do $i$
 
 Como saída, o programa deverá gerar automaticamente dois arquivos:
 
-1. um arquivo de texto no formato CSV chamado `estatisticas.csv`, no qual cada linha corresponde a um ano e suas respectivas estatísticas acerca do número de nascimentos, cada valor sendo separado por ponto-e-vírgulas, e;
+1. um arquivo de texto no formato CSV chamado `estatisticas.csv`, no qual cada linha corresponde a um ano e suas respectivas estatísticas acerca do número de nascimentos, cada valor sendo separado por vírgulas, e;
 2. um arquivo de texto chamado `totais.dat` contendo **apenas** o ano e o respectivo número total de nascimentos nesse ano, separados por **espaço**.
 
-Uma vez gerado o arquivo `totais.dat` como saída da execução do programa implementado, deverá ser gerado automaticamente um [histograma](https://en.wikipedia.org/wiki/Histogram) que mostrará a evolução do número de nascimentos entre os anos de 1994 e 2020. Para gerar esse gráfico, pode-se utilizar o programa [`gnuplot`](http://www.gnuplot.info/) ou outro programa ou biblioteca que ofereça a mesma funcionalidade, seja em Go ou em outra linguagem de programação. Contudo, a fim de minimizar uma maior curva de aprendizado, sugere-se o uso do `gnuplot`, com o qual o histograma pode ser gerado de forma simples executando o seguinte comando no terminal do sistema operacional:
+Uma vez gerado o arquivo `totais.dat` como saída da execução do programa implementado, deverá ser gerado automaticamente um [**histograma**](https://en.wikipedia.org/wiki/Histogram) que mostrará a evolução do número de nascimentos entre os anos de 1994 e 2020. Para gerar esse gráfico, pode-se utilizar o programa [`gnuplot`](http://www.gnuplot.info/) ou outro programa ou biblioteca que ofereça a mesma funcionalidade, seja em Go ou em outra linguagem de programação. Contudo, a fim de minimizar uma maior curva de aprendizado, sugere-se o uso do `gnuplot`, com o qual o histograma pode ser gerado de forma simples executando o seguinte comando no terminal do sistema operacional:
 
 ```bash
 $ gnuplot -e  "filename='totais.dat'" histograma.gnuplot
@@ -108,11 +108,11 @@ set boxwidth 0.6                    # Largura das barras verticais
 plot 'totais.dat' using 1:2 title '' smooth freq with boxes
 ```
 
-Por padrão, esse *script* gerará um gráfico na forma de um arquivo de imagem no formato PNG, a saber, `histograma.png`. Para gerar em outros formatos de arquivos de imagem, o caractere `#` (o qual indica um comentário) das respectivas linhas responsáveis pela geração no formato em questão, iniciadas pelos comandos `set terminal` e `set output`. É importante destacar que **não é possível** gerar mais de um arquivo de imagem em uma única plotagem (comando `plot`), ou seja, é necessário repetir o comando de plotagem de dados para cada arquivo de imagem a ser gerado, caso deseje-se gerar saída em múltiplos formatos.
+Por padrão, esse *script* gerará um gráfico na forma de um arquivo de imagem no formato PNG, a saber, `histograma.png`. Para gerar em outros formatos de arquivos de imagem, o caractere `#` (o qual indica um comentário) deve ser removido das respectivas linhas responsáveis pela geração no formato em questão, iniciadas pelos comandos `set terminal` e `set output`. É importante destacar que **não é possível** gerar mais de um arquivo de imagem em uma única plotagem (comando `plot`), ou seja, é necessário repetir o comando de plotagem de dados para cada arquivo de imagem a ser gerado, caso deseje-se gerar saída em múltiplos formatos.
 
 ## Tarefa 2
 
-A segunda tarefa deste trabalho consiste em estender o programa implementado até a realização da Tarefa 1 para gerar automaticamente um **gráfico de linha** mostrando a evolução do número de nascimentos para um determinado conjunto de municípios (em número indefinido) em toda a série histórica. Tais municípios alvo deverão ser informados de forma configurável ao programa através de um arquivo de entrada chamado `alvos.dat` que deverá conter **apenas** uma lista de códigos dos municípios a serem considerados para o gráfico de linha a ser gerado, um por linha. Um exemplo de conteúdo para o arquivo `alvos.dat` considerando a cidade do Natal e seus municípios limítrofes seria:
+A segunda tarefa deste trabalho consiste em estender o programa implementado até a realização da Tarefa 1 para gerar automaticamente um [**gráfico de linha**](https://en.wikipedia.org/wiki/Line_chart) mostrando a evolução do número de nascimentos para um determinado conjunto de municípios (em número indefinido) em toda a série histórica. Tais municípios alvo deverão ser informados de forma configurável ao programa através de um arquivo de entrada chamado `alvos.dat` que deverá conter **apenas** uma lista de códigos dos municípios a serem considerados para o gráfico de linha a ser gerado, um por linha. Um exemplo de conteúdo para o arquivo `alvos.dat` considerando a cidade do Natal e seus municípios limítrofes seria:
 
 ```
 240810
@@ -131,11 +131,11 @@ $ nascimentos Nascimentos_RN.csv
 
 > Lendo arquivo alvos.dat
 Municípios definidos como alvo (5):
-Natal
-Extremoz
-Parnamirim
-Macaíba
-São Gonçalo do Amarante
+NATAL
+EXTREMOZ
+PARNAMIRIM
+MACAIBA
+SAO GONCALO DO AMARANTE
 
 > Arquivo nascimentos-alvos.dat gerado
 ```
@@ -148,9 +148,7 @@ A terceira e última tarefa deste trabalho consiste em estender o programa imple
 
 $$ TC(M) = \frac{N_{2020}(M)}{N_{2016}(M)} $$
 
-em que $N_{2020}$ e $N_{2016}$ são respectivamente os números de nascidos vivos nos anos de 2020 e 2016. Caso o valor de $TC$ para o município $M$ seja inferior a 1, tem-se na verdade uma *taxa de queda* (ou *taxa de crescimento negativa*). Para o caso em que o valor de $N_{2016}$ ou de $N_{2020} seja igual a zero, o município deverá ser desconsiderado em favor do próximo que apresentar número positivo de nascimentos tanto em 2016 quanto em 2020.
-
-Os menor e maior valores de taxa de crescimento deverão ser apresentados na saída padrão conforme o seguinte exemplo:
+em que $N_{2020}$ e $N_{2016}$ são respectivamente os números de nascidos vivos nos anos de 2020 e 2016. Para o caso em que o valor de $N_{2016}$ ou de $N_{2020}$ esteja faltante (o que implicaria em uma operação de divisão inválida), o município deverá ser desconsiderado em favor do próximo que apresentar número positivo de nascimentos tanto em 2016 quanto em 2020. Os municípios com menor e maior valores de taxa de crescimento deverão ser apresentados na saída padrão conforme o seguinte exemplo:
 
 ```bash
 $ nascimentos Nascimentos_RN.csv
@@ -167,9 +165,15 @@ SAO GONCALO DO AMARANTE
 
 > Arquivo nascimentos-alvos.dat gerado
 
-Município com maior taxa de crescimento em 2016-2020: SAO MIGUEL DO GOSTOSO (1300.00%)
-Município com menor taxa de crescimento em 2016-2020: ALMINO AFONSO (0.57%)
+Município com maior taxa de crescimento 2016-2020: SAO MIGUEL DO GOSTOSO (1200.00%)
+Município com maior taxa de queda 2016-2020: ALMINO AFONSO (-99.43%)
 ```
+
+A porcentagem de crescimento (ou queda) $P$ apresentada na saída do programa, a qual deverá considerar estritamente duas casas decimais, pode ser calculada através da seguinte equação:
+
+$$ P = 100 \times (TC - 1) $$
+
+Note-se que, caso o percentual seja negativo, deve-se apresentar a taxa de crescimento como uma **taxa de queda** na saída padrão. 
 
 ## Requisitos
 
@@ -188,7 +192,7 @@ O programa deverá ainda ser desenvolvido com qualidade, garantindo que o ele fu
 
 ## Autoria e política de colaboração
 
-Este trabalho deverá necessariamente ser realizado em equipe composta de **até dois estudantes**, sendo importante, dentro do possível, dividir as tarefas igualmente entre os integrantes da equipe. Após a implementação das soluções para os problemas propostos, o arquivo [`author.md`](https://github.com/ufrn-golang/nascimentos-rn/master/author.md) presente no repositório deverá ser editado preenchendo as informações de identificação dos integrantes da equipe, na seção [Informações de Autoria](https://github.com/ufrn-golang/nascimentos-rn/tree/master/author.md#identificação-de-autoria).
+Este trabalho deverá necessariamente ser realizado em equipe composta de **até dois estudantes**, sendo importante, dentro do possível, dividir as tarefas igualmente entre os integrantes da equipe. Após a implementação das soluções para os problemas propostos, o arquivo [`author.md`](author.md) presente no repositório deverá ser editado preenchendo as informações de identificação dos integrantes da equipe, na seção [Informações de Autoria](author.md#identificação-de-autoria).
 
 O trabalho em cooperação entre estudantes da turma é estimulado, sendo admissível a discussão de ideias e estratégias. Contudo, tal interação não deve ser entendida como permissão para utilização de (parte de) código fonte de colegas, o que pode caracterizar situação de plágio. **Trabalhos copiados no todo ou em parte de outros colegas ou da Internet serão anulados e receberão nota zero.**
 
@@ -215,7 +219,7 @@ O não cumprimento de algum dos critérios de avaliação especificados poderá 
 | :--- | ---: |
 | Falta de comentários no código fonte | -10% |
 | Uso inadequado de controle de versão com Git | -20% |
-| Falta de especificação ou especificação incorreta da autoria do trabalho (arquivo [`author.md`](https://github.com/ufrn-golang/nascimentos-rn/tree/master/author.md)) | -20% |
+| Falta de especificação ou especificação incorreta da autoria do trabalho (arquivo [`author.md`](author.md)) | -20% |
 | Código fonte com legibilidade prejudicada (por exemplo, com identação ou nomenclatura inadequada) | -30% |
 | Implementação realizada em desacordo com as especificações postas para o trabalho | -50% |
 | Programa apresenta erros de compilação, não executa ou apresenta saída incorreta | -70% |
